@@ -1,0 +1,39 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Simulation of Examples from TOOLS FOR THE STUDY OF STABILITY AND CONVERGENCE IN SET
+% DYNAMICAL SYSTEMS WITH APPLICATIONS TO FEEDBACK CONTROL
+% Example: 7
+% Nathalie Risso. nrisso@email.arizona.edu
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear all;
+n = 100;
+A = 1;
+K = -0.5;
+d1 = 0.1;
+d2 = 0.15;
+w1 = d2/(d1+d2);
+w2 = d1/(d1+d2);
+X0=linspace(0.5,1.2,n)';
+Ball = linspace(-1,1,n);
+Ball = Ball';
+J=10;
+X=zeros(n,J);
+Y=zeros(n,J);
+S = (1+2*w2*d2*Ball);
+X(:,1)=X0;
+for j=1:J-1
+   Y(:,j) = (S.*X(:,j));
+   X(:,j+1) = A*X(:,j)+K*Y(:,j);
+
+end
+close all;
+figure(1)
+for i=1:J-1
+ plot(0*X(:,i)+i-1,X(:,i),'b','LineWidth',3);    hold on; grid on % This is the state
+ plot(0*X(:,i)+i-1,Y(:,i),'r','LineWidth',2); % This is the state estimation
+ xlabel('$j$', 'FontSize',16, 'Interpreter','latex');ylabel('$x_p$', 'FontSize',16, 'Interpreter','latex');
+end
+ hYLabel = get(gca,'YLabel');
+ set(hYLabel,'rotation',0,'VerticalAlignment','middle')
+ hYLabelPos = get( hYLabel , 'position');
+hYLabelPos(1) = -0.7;
+set(  hYLabel , 'position' , hYLabelPos);
